@@ -81,31 +81,31 @@ const icons = {
 
 const work = [
     {
-        nome: 'FitCalc', img: '../img/fit-calc.png',
+        nome: 'FitCalc', img: 'img/fit-calc.png',
         status: { pt: 'Saúde e fitness', en: 'Health & fitness' },
         descricao: { pt: 'Calculadora de IMC com cadastro, login e histórico de cálculos salvos no banco de dados.', en: 'BMI calculator with sign-up, login and a history of calculations saved in the database.' },
         stacks: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'], url: 'https://github.com/PedroEmanoel933/FitCalc'
     },
     {
-        nome: 'Age Calculator', img: '../img/age-calculator.png',
+        nome: 'Age Calculator', img: 'img/age-calculator.png',
         status: { pt: 'Utilitário', en: 'Utility' },
         descricao: { pt: 'Calculadora de idade simples e eficiente.', en: 'Simple and efficient age calculator.' },
         stacks: ['HTML', 'CSS', 'JavaScript'], url: 'https://age-calculator-pead.vercel.app'
     },
     {
-        nome: 'API NBA Players', img: '../img/api-nba-players.svg',
+        nome: 'API NBA Players', img: 'img/api-nba-players.svg',
         status: { pt: 'API', en: 'API' },
         descricao: { pt: 'API que retorna dados de jogadores da NBA.', en: 'API that returns NBA player data.' },
         stacks: ['PHP'], url: 'https://github.com/PedroEmanoel933/API-NBA-Players'
     },
     {
-        nome: { pt: 'Cardápio 3D', en: '3D Menu' }, img: '../img/cardapio-3d.svg',
+        nome: { pt: 'Cardápio 3D', en: '3D Menu' }, img: 'img/cardapio-3d.svg',
         status: { pt: 'Em breve', en: 'Coming soon' },
         descricao: { pt: 'Cardápio digital interativo em que o cliente visualiza os pratos em 3D.', en: 'Interactive digital menu where customers view the dishes in 3D.' },
         stacks: [], url: ''
     },
     {
-        nome: { pt: 'Comunidade Tech', en: 'Tech Community' }, img: '../img/comunidade-tech.svg',
+        nome: { pt: 'Comunidade Tech', en: 'Tech Community' }, img: 'img/comunidade-tech.svg',
         status: { pt: 'Em breve', en: 'Coming soon' },
         descricao: { pt: 'Site de comunidade para desenvolvedores compartilharem projetos e conteúdos.', en: 'Community site where developers share projects and content.' },
         stacks: [], url: ''
