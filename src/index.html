@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Portfólio - Pedro Emanoel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;800;900&family=DM+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=menu" />
+  <script>
+  /* aplica o tema salvo antes de a página aparecer (evita piscar) */
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved) document.documentElement.dataset.theme = saved;
+    } catch (e) { }
+  })();
+</script>
+</head>
+
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="logo" href="#top">PEU</a>
+
+      <nav class="links" id="links">
+        <a href="#work" data-i18n="navWork">Projetos</a>
+        <a href="#about" data-i18n="navAbout">Sobre</a>
+        <a href="#education" data-i18n="navEdu">Formação</a>
+        <a class="btn fill" data-wa data-i18n="navContact" href="https://wa.me/5571984358900" target="_blank"
+          rel="noopener">Contato ↗</a>
+      </nav>
+
+      <div class="tools">
+        <div class="lang" role="group" aria-label="Idioma / Language">
+          <button type="button" data-lang="pt" class="on" aria-pressed="true">PT</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button type="button" class="theme" id="themeBtn"></button>
+        <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="links" data-i18n-aria="menuLabel"
+          aria-label="Menu"><span class="material-symbols-outlined">menu</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div class="sky" id="sky" aria-hidden="true">
+        <span class="body sun" id="sun"></span>
+        <span class="body moon" id="moon"></span>
+        <span class="body pl" id="jup" style="background:#d9a066"></span>
+        <span class="body pl" id="mar" style="background:#d6452a"></span>
+        <span class="body pl" id="sat" style="background:#c9b27c"></span>
+      </div>
+      <h1>Peu Emanoel</h1>
+      <div class="hero-foot">
+        <div class="facts">
+          <div><span data-i18n="birth">Nascimento</span><b>2008</b></div>
+          <div><span data-i18n="loc">Local</span><b>Salvador, Bahia</b></div>
+          <div><span data-i18n="focus">Foco</span><b data-i18n="focusVal">Desenvolvimento Web</b></div>
+        </div>
+        <div>
+          <div class="cta-row">
+            <a class="btn fill" href="#work" data-i18n="ctaWork">Ver projetos</a>
+            <a class="btn" data-wa data-i18n="ctaContact" href="https://wa.me/5571984358900" target="_blank"
+              rel="noopener">Entrar em contato →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="marq" data-i18n-aria="techLabel" aria-label="Tecnologias">
+      <div class="track" id="track"></div>
+    </div>
+
+    <section id="about" style="border-top:1px solid var(--line)">
+      <div class="wrap svc">
+        <div class="about-me">
+          <h2 data-i18n="aboutTitle">Sobre mim</h2>
+          <p style="margin-top:28px" data-i18n="aboutText">Sou estudante de Engenharia de Software e desenvolvo
+            projetos web do banco de dados até a interface. Gosto de transformar ideias em aplicações funcionais,
+            organizadas e acessíveis.</p>
+          <a class="btn" href="#work" style="margin-top:12px" data-i18n="aboutBtn">Ver projetos</a>
+        </div>
+        <div class="portrait">
+          <img src="../img/foto-pedro (1).webp" alt="Foto de Pedro Emanoel" data-i18n-alt="photoAlt">
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 data-i18n="workTitle">Projetos Pessoais</h2>
+          <a class="btn" href="https://github.com/PedroEmanoel933" target="_blank" rel="noopener"
+            data-i18n="github">Ver GitHub</a>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <section id="education" style="border-top:1px solid var(--line)">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 data-i18n="eduTitle">Formação e ferramentas</h2>
+        </div>
+        <div class="quotes">
+          <blockquote><span data-i18n="q1">Cursando Engenharia de Software, aprendendo na prática com projetos
+              próprios.</span><cite data-i18n="q1c">Formação · UCSAL</cite></blockquote>
+          <blockquote><span data-i18n="q2">HTML, CSS e JavaScript puros no front-end, PHP e MySQL no
+              back-end.</span><cite data-i18n="q2c">Tecnologias</cite></blockquote>
+          <blockquote><span data-i18n="q3">Desenvolvimento em nuvem com GitHub Codespaces e publicação na
+              Vercel.</span><cite data-i18n="q3c">Ambiente de trabalho</cite></blockquote>
+        </div>
+        <div class="stat"><b>5</b><span data-i18n="stat">Projetos pessoais, entre os já publicados e os que estão em
+            desenvolvimento.</span></div>
+      </div>
+    </section>
+
+    <section class="big" id="contact">
+      <div class="wrap">
+        <h2 data-i18n="contactTitle" style="text-align: center; display: flex; justify-content: center;" >Vamos conversar?</h2>
+        <a class="btn fill" data-wa data-i18n="contactBtn" href="https://wa.me/5571984358900" target="_blank"
+          rel="noopener">Mandar mensagem</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="fcols">
+        <div><a class="logo" href="#top">PEU</a></div>
+        <div>
+          <h4 data-i18n="fNav">Navegação</h4>
+          <a href="#work" data-i18n="navWork">Projetos</a>
+          <a href="#about" data-i18n="navAbout">Sobre</a>
+          <a href="#education" data-i18n="navEdu">Formação</a>
+        </div>
+        <div>
+          <h4 data-i18n="fContact">Contato</h4>
+          <a href="mailto:pemanoel.dev@gmail.com">pemanoel.dev@gmail.com</a><span>Salvador · Bahia</span>
+        </div>
+        <div>
+          <h4 data-i18n="fSocial">Redes</h4>
+          <a href="https://www.linkedin.com/in/SEU-PERFIL" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/PedroEmanoel933" target="_blank" rel="noopener">GitHub</a>
+          <a data-wa href="https://wa.me/5571984358900" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+      <div class="legal"><span data-i18n="legal" style="text-align: center;">© 2026 Pedro Emanoel. Todos os direitos reservados.</span><span
+          data-i18n="made">Feito com &#10084;</span></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
