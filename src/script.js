@@ -10,12 +10,15 @@ const i18n = {
         aboutText: 'Sou estudante de Engenharia de Software e desenvolvo projetos web do banco de dados até a interface. Gosto de transformar ideias em aplicações funcionais, organizadas e acessíveis.',
         aboutBtn: 'Ver projetos', photoAlt: 'Foto de Pedro Emanoel',
         workTitle: 'Projetos Pessoais', github: 'Ver GitHub',
+        projFilter: 'Filtrar', projFilterAll: 'Todos',
         eduTitle: 'Formação e ferramentas',
         q1: 'Cursando Engenharia de Software, aprendendo na prática com projetos próprios.', q1c: 'Formação · UCSAL',
         q2: 'HTML, CSS e JavaScript puros no front-end, PHP e MySQL no back-end.', q2c: 'Tecnologias',
         q3: 'Desenvolvimento em nuvem com GitHub Codespaces e publicação na Vercel.', q3c: 'Ambiente de trabalho',
         stat: 'Projetos pessoais, entre os já publicados e os que estão em desenvolvimento.',
-        contactTitle: 'Vamos conversar?', contactBtn: 'Mandar mensagem',
+        contactTitle: 'Vamos conversar?',
+        cfLabel: 'Sua mensagem', cfPlaceholder: 'Escreva sua mensagem para o Pedro...',
+        cfSend: 'Enviar pelo WhatsApp', cfEmpty: 'Escreva uma mensagem antes de enviar.', cfOk: 'Abrindo o WhatsApp...',
         fNav: 'Navegação', fContact: 'Contato', fSocial: 'Redes',
         legal: '© 2026 Pedro Emanoel. Todos os direitos reservados.', made: 'Feito com \u2764',
         themeToLight: 'Ativar modo claro', themeToDark: 'Ativar modo escuro',
@@ -31,18 +34,23 @@ const i18n = {
         aboutText: "I'm a Software Engineering student who builds web projects from the database to the interface. I like turning ideas into functional, well-organized and accessible applications.",
         aboutBtn: 'View projects', photoAlt: 'Photo of Pedro Emanoel',
         workTitle: 'Personal Projects', github: 'View GitHub',
+        projFilter: 'Filter', projFilterAll: 'All',
         eduTitle: 'Education and tools',
         q1: 'Studying Software Engineering, learning by doing with my own projects.', q1c: 'Education · UCSAL',
         q2: 'Plain HTML, CSS and JavaScript on the front end, PHP and MySQL on the back end.', q2c: 'Technologies',
         q3: 'Cloud development with GitHub Codespaces and deployment on Vercel.', q3c: 'Work environment',
         stat: 'Personal projects, both published and in development.',
-        contactTitle: "Let's talk?", contactBtn: 'Send a message',
+        contactTitle: "Let's talk?",
+        cfLabel: 'Your message', cfPlaceholder: 'Write your message to Pedro...',
+        cfSend: 'Send via WhatsApp', cfEmpty: 'Write a message before sending.', cfOk: 'Opening WhatsApp...',
         fNav: 'Navigation', fContact: 'Contact', fSocial: 'Social',
         legal: '© 2026 Pedro Emanoel. All rights reserved.', made: 'Made with \u2764',
         themeToLight: 'Switch to light mode', themeToDark: 'Switch to dark mode',
         waMsg: "Hello, Pedro! I saw your portfolio and liked your projects. I'd like to talk with you about an opportunity. Can we chat?"
     }
 };
+
+const WA = 'https://wa.me/5571984358900';
 
 let lang = 'pt';
 try { lang = localStorage.getItem('lang') || 'pt'; } catch (e) { }
@@ -63,12 +71,14 @@ const clients = [
 ];
 
 const track = document.getElementById('track');
-track.innerHTML = [...clients, ...clients].map(c =>
-    `<span class="stack">
+if (track) {
+    track.innerHTML = [...clients, ...clients].map(c =>
+        `<span class="stack">
      <img src="${base}${c.icon}" alt="" width="28" height="28" loading="lazy">
      ${c.name}
    </span>`
-).join('');
+    ).join('');
+}
 
 /* ---------- projetos ---------- */
 const icons = {
@@ -112,8 +122,15 @@ const work = [
     },
 ];
 
+let projFilterActive = 'all';
+
 function renderWork() {
-    document.getElementById('grid').innerHTML = work.map(w => {
+    const grid = document.getElementById('grid');
+    if (!grid) return;
+
+    const list = projFilterActive === 'all' ? work : work.filter(w => w.stacks.includes(projFilterActive));
+
+    grid.innerHTML = list.map(w => {
         const nome = pick(w.nome);
         const stacks = w.stacks.map(s =>
             '<img src="' + base + icons[s] + '" alt="' + s + '" title="' + s + '" width="26" height="26" loading="lazy">'
@@ -134,6 +151,81 @@ function renderWork() {
     }).join('');
 }
 
+/* ---------- filtro de projetos (proj-filter) ---------- */
+const projFilterBtn = document.getElementById('projFilterBtn');
+const projFilterMenu = document.getElementById('projFilterMenu');
+const projFilterLabel = document.getElementById('projFilterLabel');
+
+function renderProjFilter() {
+    if (!projFilterMenu) return;
+
+    // as opções vêm das stacks que existem nos projetos
+    const stacks = [...new Set(work.flatMap(w => w.stacks))];
+
+    projFilterMenu.innerHTML = ['all', ...stacks].map(s => {
+        const on = s === projFilterActive;
+        const icon = s === 'all' ? '' : '<img src="' + base + icons[s] + '" alt="" width="20" height="20">';
+        const name = s === 'all' ? t('projFilterAll') : s;
+        return '<button type="button" class="proj-filter__item' + (on ? ' is-active' : '') + '" data-proj-filter="' + s + '" aria-pressed="' + on + '">' + icon + name + '</button>';
+    }).join('');
+
+    if (projFilterLabel) {
+        projFilterLabel.textContent = projFilterActive === 'all' ? t('projFilter') : t('projFilter') + ': ' + projFilterActive;
+    }
+}
+
+function closeProjFilter() {
+    if (!projFilterMenu || !projFilterBtn) return;
+    projFilterMenu.hidden = true;
+    projFilterBtn.setAttribute('aria-expanded', 'false');
+}
+
+if (projFilterBtn && projFilterMenu) {
+    projFilterBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        const willOpen = projFilterMenu.hidden;
+        projFilterMenu.hidden = !willOpen;
+        projFilterBtn.setAttribute('aria-expanded', String(willOpen));
+    });
+
+    projFilterMenu.addEventListener('click', e => {
+        const b = e.target.closest('[data-proj-filter]');
+        if (!b) return;
+        projFilterActive = b.dataset.projFilter;
+        renderWork();
+        renderProjFilter();
+        closeProjFilter();
+    });
+
+    document.addEventListener('click', e => { if (!e.target.closest('#projFilter')) closeProjFilter(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProjFilter(); });
+}
+
+/* ---------- formulário de contato (cf): envia a mensagem para o WhatsApp ---------- */
+const cfForm = document.getElementById('cfForm');
+const cfText = document.getElementById('cfText');
+const cfStatus = document.getElementById('cfStatus');
+
+if (cfForm && cfText && cfStatus) {
+    cfForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const text = cfText.value.trim();
+
+        if (!text) {
+            cfStatus.style.color = 'var(--orange)';
+            cfStatus.textContent = t('cfEmpty');
+            cfText.focus();
+            return;
+        }
+
+        cfStatus.style.color = 'var(--teal)';
+        cfStatus.textContent = t('cfOk');
+        window.open(WA + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    });
+
+    cfText.addEventListener('input', () => { cfStatus.textContent = ''; });
+}
+
 /* ---------- tema claro/escuro ---------- */
 const root = document.documentElement;
 const themeBtn = document.getElementById('themeBtn');
@@ -144,22 +236,23 @@ function currentTheme() {
     return root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 }
 function paintTheme() {
+    if (!themeBtn) return;
     const dark = currentTheme() === 'dark';
     themeBtn.innerHTML = dark ? SUN : MOON;
     const label = dark ? t('themeToLight') : t('themeToDark');
     themeBtn.setAttribute('aria-label', label);
     themeBtn.title = label;
 }
-themeBtn.addEventListener('click', () => {
-    const next = currentTheme() === 'dark' ? 'light' : 'dark';
-    root.dataset.theme = next;
-    try { localStorage.setItem('theme', next); } catch (e) { }
-    paintTheme();
-});
+if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+        const next = currentTheme() === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('theme', next); } catch (e) { }
+        paintTheme();
+    });
+}
 
 /* ---------- troca de idioma ---------- */
-const WA = 'https://wa.me/5571984358900';
-
 function setLang(l) {
     lang = l;
     try { localStorage.setItem('lang', l); } catch (e) { }
@@ -169,6 +262,7 @@ function setLang(l) {
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll('[data-i18n-alt]').forEach(el => { el.alt = t(el.dataset.i18nAlt); });
     document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
     document.querySelectorAll('[data-wa]').forEach(a => { a.href = WA + '?text=' + encodeURIComponent(t('waMsg')); });
 
     document.querySelectorAll('[data-lang]').forEach(b => {
@@ -177,15 +271,20 @@ function setLang(l) {
         b.setAttribute('aria-pressed', on);
     });
 
+    if (cfStatus) cfStatus.textContent = '';
     renderWork();
+    renderProjFilter();
     paintTheme();
 }
 document.querySelectorAll('[data-lang]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
 
 /* ---------- céu: posições calculadas só com a data ---------- */
 function place(id, deg, r) {
-    const a = (deg - 90) * Math.PI / 180, el = document.getElementById(id);
-    el.style.left = (50 + r * Math.cos(a)) * 1 + '%'; el.style.top = (50 + r * Math.sin(a)) + '%';
+    const el = document.getElementById(id);
+    if (!el) return;
+    const a = (deg - 90) * Math.PI / 180;
+    el.style.left = (50 + r * Math.cos(a)) + '%';
+    el.style.top = (50 + r * Math.sin(a)) + '%';
 }
 function updateSky() {
     const now = new Date(), d = (now - new Date(Date.UTC(2000, 0, 1, 12))) / 864e5;
@@ -200,8 +299,10 @@ updateSky(); setInterval(updateSky, 60000);
 
 /* ---------- menu mobile ---------- */
 const mb = document.getElementById('menuBtn'), lk = document.getElementById('links');
-mb.addEventListener('click', () => { const o = lk.classList.toggle('open'); mb.setAttribute('aria-expanded', o) });
-lk.addEventListener('click', e => { if (e.target.tagName === 'A') { lk.classList.remove('open'); mb.setAttribute('aria-expanded', 'false') } });
+if (mb && lk) {
+    mb.addEventListener('click', () => { const o = lk.classList.toggle('open'); mb.setAttribute('aria-expanded', o) });
+    lk.addEventListener('click', e => { if (e.target.tagName === 'A') { lk.classList.remove('open'); mb.setAttribute('aria-expanded', 'false') } });
+}
 
 /* ---------- início ---------- */
 setLang(lang);
