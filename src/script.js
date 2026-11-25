@@ -18,7 +18,7 @@ const i18n = {
         stat: 'Projetos pessoais, entre os já publicados e os que estão em desenvolvimento.',
         contactTitle: 'Vamos conversar?',
         cfLabel: 'Sua mensagem', cfPlaceholder: 'Escreva sua mensagem para o Pedro...',
-        cfSend: 'Enviar pelo WhatsApp', cfEmpty: 'Escreva uma mensagem antes de enviar.', cfOk: 'Abrindo o WhatsApp...',
+        cfSend: 'Enviar pelo WhatsApp', cfEmpty: 'Escreva uma mensagem antes de enviar.', cfShort: 'A mensagem deve ter pelo menos 50 caracteres.', cfOk: 'Abrindo o WhatsApp...',
         fNav: 'Navegação', fContact: 'Contato', fSocial: 'Redes',
         legal: '© 2026 Pedro Emanoel. Todos os direitos reservados.', made: 'Feito com \u2764',
         themeToLight: 'Ativar modo claro', themeToDark: 'Ativar modo escuro',
@@ -42,7 +42,7 @@ const i18n = {
         stat: 'Personal projects, both published and in development.',
         contactTitle: "Let's talk?",
         cfLabel: 'Your message', cfPlaceholder: 'Write your message to Pedro...',
-        cfSend: 'Send via WhatsApp', cfEmpty: 'Write a message before sending.', cfOk: 'Opening WhatsApp...',
+        cfSend: 'Send via WhatsApp', cfEmpty: 'Write a message before sending.', cfShort: 'Your message must contain at least 50 characters.', cfOk: 'Opening WhatsApp...',
         fNav: 'Navigation', fContact: 'Contact', fSocial: 'Social',
         legal: '© 2026 Pedro Emanoel. All rights reserved.', made: 'Made with \u2764',
         themeToLight: 'Switch to light mode', themeToDark: 'Switch to dark mode',
@@ -214,6 +214,13 @@ if (cfForm && cfText && cfStatus) {
         if (!text) {
             cfStatus.style.color = 'var(--orange)';
             cfStatus.textContent = t('cfEmpty');
+            cfText.focus();
+            return;
+        }
+
+        if (text.length < 50) {
+            cfStatus.style.color = 'var(--orange)';
+            cfStatus.textContent = t('cfShort');
             cfText.focus();
             return;
         }
